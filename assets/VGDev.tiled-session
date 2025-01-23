@@ -9,15 +9,15 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInDock": 1,
+            "scaleInDock": 2.9305,
             "scaleInEditor": 1
         },
         "Level1.json": {
-            "scale": 1.74,
-            "selectedLayer": 2,
+            "scale": 1.21,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": -1197.126436781609,
-                "y": -3824.712643678161
+                "x": 235.53719008264463,
+                "y": 154.54545454545453
             }
         },
         "Level1.json#tiles": {

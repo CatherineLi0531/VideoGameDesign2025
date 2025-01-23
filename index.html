@@ -6,14 +6,53 @@
     <body >
         <script>
 
+            class GameOver extends Phaser.Scene{
+
+                constructor (key) {
+                    super({ key: 'GameOver' });
+                }
+
+                preload(){
+
+                    console.log('hello');
+
+                    this.load.image('main', 'assets/world_tileset.png')
+
+                    // load the JSON file
+                    this.load.tilemapTiledJSON('tilemap', 'assets/GameOver.json')
+
+                    
+                }
+
+                create(){
+
+                    const map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 })
+                    map.addTilesetImage('tiles', 'main')
+                    map.createStaticLayer('layer', 'tiles',0,0)
+
+                    
+                }
+
+                update(){
+
+                }
+
+            }
+
             class Level1 extends Phaser.Scene {
 
                 player1;
+                player2;
+                player3;
+                player4;
                 cursors;
                 pumpkins;
+                fall;
+                //pumpkinsLeft = 8;
+                
 
                 constructor (key) {
-                    super(key);
+                    super({ key: 'Level1' });
                 }
 
                 preload ()
@@ -25,72 +64,193 @@
                     this.load.tilemapTiledJSON('tilemap', 'assets/Level1.json')
 
                     this.load.spritesheet('player1', 'assets/Player1.png', { frameWidth: 16, frameHeight: 16 });
+                    this.load.spritesheet('player2', 'assets/Player2.png', { frameWidth: 16, frameHeight: 16 });
+                    this.load.spritesheet('player3', 'assets/Player3.png', { frameWidth: 16, frameHeight: 16 });
+                    this.load.spritesheet('player4', 'assets/Player4.png', { frameWidth: 16, frameHeight: 16 });
 
                 }
 
-                create ()
-                {
+                create (){
+
+                    //tilemap
                     const map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 })
-                    const tileset = map.addTilesetImage('tiles', 'main')
+                    map.addTilesetImage('tiles', 'main')
                     map.createStaticLayer('Background', 'tiles',0,0)
                     var blocks = map.createStaticLayer('Blocks', 'tiles',0,0)
-                    var water = map.createDynamicLayer('Water', tileset);
-                    var falling = map.createDynamicLayer('Falling', tileset);
-                    this.pumpkins = map.createDynamicLayer('Pumpkins', tileset);
+                    this.fall = map.createStaticLayer('Falling', 'tiles',0,0)
+                    var water = map.createStaticLayer('Water', 'tiles');
+                    this.pumpkins = map.createDynamicLayer('Pumpkins', 'tiles');
 
+                    //animations
                     this.anims.create({
-                        key: 'idle',
+                        key: 'idle1',
                         frames: this.anims.generateFrameNumbers('player1', { frames: [ 0, 1, 2, 3 ] }),
                         frameRate: 6,
                         repeat: -1
                     });
 
+                    this.anims.create({
+                        key: 'idle2',
+                        frames: this.anims.generateFrameNumbers('player2', { frames: [ 0, 1, 2, 3 ] }),
+                        frameRate: 6,
+                        repeat: -1
+                    });
+
+                    this.anims.create({
+                        key: 'idle3',
+                        frames: this.anims.generateFrameNumbers('player3', { frames: [ 0, 1, 2, 3 ] }),
+                        frameRate: 6,
+                        repeat: -1
+                    });
+
+                    this.anims.create({
+                        key: 'idle4',
+                        frames: this.anims.generateFrameNumbers('player4', { frames: [ 0, 1, 2, 3 ] }),
+                        frameRate: 6,
+                        repeat: -1
+                    });
+
+                    //Initializing Sprites
                     this.player1 = this.physics.add.sprite(32, 304, 'player1')
                         .setBounce(0.1);
                     this.player1.setScale(1);
                     this.player1.setCrop(0,0,16,14);
-                    this.player1.play('idle');
+                    this.player1.play('idle1');
 
-                    //this.player1.setCollideWorldBounds(true);
-                    this.physics.add.collider(this.player1, blocks);
-                    this.physics.add.overlap(this.player1, water);
-                    this.physics.add.collider(this.player1, falling);
-                    this.physics.add.overlap(this.player1, this.pumpkins);
+                    this.player2 = this.physics.add.sprite(16, 304, 'player2')
+                        .setBounce(0.1);
+                    this.player2.setScale(1);
+                    this.player2.setCrop(0,0,16,14);
+                    this.player2.play('idle2');
+
+                    this.player3 = this.physics.add.sprite(0, 304, 'player3')
+                        .setBounce(0.1);
+                    this.player3.setScale(1);
+                    this.player3.setCrop(0,0,16,14);
+                    this.player3.play('idle3');
+
+                    this.player4 = this.physics.add.sprite(48, 304, 'player4')
+                        .setBounce(0.1);
+                    this.player4.setScale(1);
+                    this.player4.setCrop(0,0,16,14);
+                    this.player4.play('idle4');
+
                     blocks.setCollisionByExclusion([245,66,67,68,69,83,99,85,101]);
-                    water.setCollisionByExclusion([245]);
-                    falling.setCollisionByExclusion([245]);
+                    this.fall.setCollisionByExclusion([245,66,67,68,69,83,99,85,101]);
+
+                    //Physics
+                    this.physics.add.collider(this.player1, blocks);
+                    this.physics.add.collider(this.player1, this.fall);
+                    this.physics.add.overlap(this.player1, water);
+                    this.physics.add.overlap(this.player1, this.pumpkins);
+                    this.player1.setCollideWorldBounds(true);
+
+                    this.physics.add.collider(this.player2, blocks);
+                    this.physics.add.collider(this.player2, this.fall);
+                    this.physics.add.overlap(this.player2, water);
+                    this.physics.add.overlap(this.player2, this.pumpkins);
+                    this.player2.setCollideWorldBounds(true);
+
+                    this.physics.add.collider(this.player3, blocks);
+                    this.physics.add.overlap(this.player3, water);
+                    this.physics.add.collider(this.player3, this.fall);
+                    this.physics.add.overlap(this.player3, this.pumpkins);
+                    this.player3.setCollideWorldBounds(true);
+
+                    this.physics.add.collider(this.player4, blocks);
+                    this.physics.add.overlap(this.player4, water);
+                    this.physics.add.collider(this.player4, this.fall);
+                    this.physics.add.overlap(this.player4, this.pumpkins);
+                    this.player4.setCollideWorldBounds(true);
+
+
                     this.pumpkins.setTileIndexCallback(133, this.hitCoin, this);
+                    water.setTileIndexCallback(213, ()=>
+                    {
+                        this.scene.stop('Level1');
+                        this.scene.remove('Level1');
+                        this.scene.start('GameOver');
+
+                    }, this); //not loading tilemap
 
                     this.cursors = this.input.keyboard.createCursorKeys();
-                    
 
-                    console.log('...');
-                    
-                
+
                 }
 
                 update ()
                 {
                     const cursors = this.cursors;
-                    const player = this.player1;
+                    const player1 = this.player1;
+                    const player2 = this.player2;
+                    const player3= this.player3;
+                    const player4= this.player4;
 
-                    if (cursors.left.isDown)
-                    {
-                        player.setVelocityX(-160);
+                    let keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+                    let keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+                    let keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+
+                    let keyV = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V);
+                    let keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+                    let keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+
+                    let keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
+                    let keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+                    let keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+
+                    player1.setVelocityX(0);
+                    player2.setVelocityX(0);
+                    player3.setVelocityX(0);
+                    player4.setVelocityX(0);
+
+                    //Player1
+                    if (cursors.left.isDown){
+                        player1.setVelocityX(-160);
                     }
-                    else if (cursors.right.isDown)
-                    {
-                        player.setVelocityX(160);
+                    else if (cursors.right.isDown){
+                        player1.setVelocityX(160);
                     }
-                    else
-                    {
-                        player.setVelocityX(0);
+                    if (cursors.up.isDown && player1.body.onFloor()){
+                        player1.setVelocityY(-330);
                     }
 
-                    if (cursors.up.isDown)
-                    {
-                        player.setVelocityY(-330);
+                    //Player2
+                    if(keyA.isDown) {
+                        player2.setVelocityX(-160);
                     }
+                    else if(keyD.isDown) {
+                        player2.setVelocityX(160);
+                    } 
+                    else if(keyW.isDown && player2.body.onFloor()) {
+                        player2.setVelocityY(-330);
+                    }
+
+                    //Player3
+                    if(keyV.isDown) {
+                        player3.setVelocityX(-160);
+                    }
+                    else if(keyN.isDown) {
+                        player3.setVelocityX(160);
+                    } 
+                    else if(keyG.isDown && player3.body.onFloor()) {
+                        player3.setVelocityY(-330);
+                    }
+
+                    //Player4
+                    if(keyJ.isDown) {
+                        player4.setVelocityX(-160);
+                    }
+                    else if(keyL.isDown) {
+                        player4.setVelocityX(160);
+                    } 
+                    else if(keyI.isDown && player4.body.onFloor()) {
+                        player4.setVelocityY(-330);
+                    }
+                
+                    //falling blocks
+
+                    //console.log(this.game.physics.arcade.collide(player1, this.fall));
+
                 }
 
                 hitCoin (sprite, tile)
@@ -120,7 +280,7 @@
                 },
                 backgroundColor: '#000000',
                 parent: 'phaser-example',
-                scene: Level1
+                scene: [Level1, GameOver]
             };
 
 
