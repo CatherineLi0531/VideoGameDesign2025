@@ -1,0 +1,133 @@
+<html>
+    <head>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.js"></script>
+        <link rel="icon" href="assets/image.png" type="image/x-icon">
+    </head>
+    <body >
+        <script>
+
+            class Level1 extends Phaser.Scene {
+
+                player1;
+                cursors;
+                pumpkins;
+
+                constructor (key) {
+                    super(key);
+                }
+
+                preload ()
+                {
+                    // load the PNG file
+                    this.load.image('main', 'assets/world_tileset.png')
+
+                    // load the JSON file
+                    this.load.tilemapTiledJSON('tilemap', 'assets/Level1.json')
+
+                    this.load.spritesheet('player1', 'assets/Player1.png', { frameWidth: 16, frameHeight: 16 });
+
+                }
+
+                create ()
+                {
+                    const map = this.make.tilemap({ key: 'tilemap', tileWidth: 16, tileHeight: 16 })
+                    const tileset = map.addTilesetImage('tiles', 'main')
+                    map.createStaticLayer('Background', 'tiles',0,0)
+                    var blocks = map.createStaticLayer('Blocks', 'tiles',0,0)
+                    var water = map.createDynamicLayer('Water', tileset);
+                    var falling = map.createDynamicLayer('Falling', tileset);
+                    this.pumpkins = map.createDynamicLayer('Pumpkins', tileset);
+
+                    this.anims.create({
+                        key: 'idle',
+                        frames: this.anims.generateFrameNumbers('player1', { frames: [ 0, 1, 2, 3 ] }),
+                        frameRate: 6,
+                        repeat: -1
+                    });
+
+                    this.player1 = this.physics.add.sprite(32, 304, 'player1')
+                        .setBounce(0.1);
+                    this.player1.setScale(1);
+                    this.player1.setCrop(0,0,16,14);
+                    this.player1.play('idle');
+
+                    //this.player1.setCollideWorldBounds(true);
+                    this.physics.add.collider(this.player1, blocks);
+                    this.physics.add.overlap(this.player1, water);
+                    this.physics.add.collider(this.player1, falling);
+                    this.physics.add.overlap(this.player1, this.pumpkins);
+                    blocks.setCollisionByExclusion([245,66,67,68,69,83,99,85,101]);
+                    water.setCollisionByExclusion([245]);
+                    falling.setCollisionByExclusion([245]);
+                    this.pumpkins.setTileIndexCallback(133, this.hitCoin, this);
+
+                    this.cursors = this.input.keyboard.createCursorKeys();
+                    
+
+                    console.log('...');
+                    
+                
+                }
+
+                update ()
+                {
+                    const cursors = this.cursors;
+                    const player = this.player1;
+
+                    if (cursors.left.isDown)
+                    {
+                        player.setVelocityX(-160);
+                    }
+                    else if (cursors.right.isDown)
+                    {
+                        player.setVelocityX(160);
+                    }
+                    else
+                    {
+                        player.setVelocityX(0);
+                    }
+
+                    if (cursors.up.isDown)
+                    {
+                        player.setVelocityY(-330);
+                    }
+                }
+
+                hitCoin (sprite, tile)
+                {
+                    this.pumpkins.removeTileAt(tile.x, tile.y);
+                    //this.coinsCollected += 1;
+                    //this.updateText();
+
+                    // Return true to exit processing collision of this tile vs the sprite - in this case, it
+                    // doesn't matter since the coin tiles are not set to collide.
+                    return false;
+                }
+
+
+            }
+
+            const config = {
+                type: Phaser.AUTO,
+                width: 480,
+                height: 320,
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        gravity: { y: 300 },
+                        debug: false
+                    }
+                },
+                backgroundColor: '#000000',
+                parent: 'phaser-example',
+                scene: Level1
+            };
+
+
+            var game = new Phaser.Game(config);
+
+
+        </script>
+
+    </body>
+</html>

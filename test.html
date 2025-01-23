@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser.js"></script>
+        <link rel="icon" href="assets/image.png" type="image/x-icon">
+    </head>
+    <body >
+        <script>
+
+            class Level1 extends Phaser.Scene {
+
+                constructor (key) {
+                    super(key);
+                }
+
+                preload ()
+                {
+                    // load the PNG file
+                    this.load.image('main', 'assets/world_tileset.png')
+
+                    // load the JSON file
+                    this.load.tilemapTiledJSON('tilemap', 'assets/Level1.json')
+                }
+
+                create ()
+                {
+                    const map = this.make.tilemap({ key: 'tilemap' })
+                    const tileset = map.addTilesetImage('tiles', 'main')
+                    map.createStaticLayer('Background', tileset)
+                    map.createStaticLayer('Blocks', tileset)
+
+                    console.log('hello');
+
+                
+                }
+
+                update ()
+                {
+                    
+                }
+
+            }
+
+            const config = {
+                type: Phaser.AUTO,
+                width: 800,
+                height: 600,
+                backgroundColor: '#000000',
+                parent: 'phaser-example',
+                scene: Level1
+            };
+
+
+            var game = new Phaser.Game(config);
+
+        </script>
+
+    </body>
+</html>
