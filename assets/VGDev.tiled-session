@@ -3,27 +3,88 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Level1.json",
+    "activeFile": "Win.json",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInDock": 2.9305,
+            "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "#main": {
+            "scaleInDock": 1
+        },
+        "#tiles": {
+            "scaleInDock": 1
+        },
+        "End.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240,
+                "y": 160
+            }
+        },
+        "End.json#main": {
+            "scaleInDock": 1
+        },
+        "GameOver.json": {
+            "scale": 1.1409,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 309.4048558155842,
+                "y": 144.62266631606627
+            }
+        },
+        "GameOver.json#main": {
+            "scaleInDock": 2.5562
         },
         "Level1.json": {
             "scale": 1.21,
-            "selectedLayer": 4,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 235.53719008264463,
-                "y": 154.54545454545453
+                "x": 239.6694214876033,
+                "y": 155.37190082644628
             }
         },
         "Level1.json#tiles": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "Level2.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240,
+                "y": 160
+            }
+        },
+        "Level2.json#tiles": {
+            "scaleInDock": 1
+        },
+        "Level3.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240,
+                "y": 160
+            }
+        },
+        "Level3.json#tiles": {
+            "scaleInDock": 2.149
+        },
+        "Win.json": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 136,
+                "y": 139
+            }
+        },
+        "Win.json#tiles": {
+            "scaleInDock": 1
         }
     },
     "last.imagePath": "/Users/catherineli/Downloads/brackeys_platformer_assets/sprites",
@@ -31,11 +92,20 @@
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "openFiles": [
-        "Level1.json"
+        "Level1.json",
+        "End.json",
+        "Level2.json",
+        "Level3.json",
+        "Win.json"
     ],
     "project": "VGDev.tiled-project",
     "recentFiles": [
-        "Level1.json"
+        "Level1.json",
+        "End.json",
+        "Level2.json",
+        "Level3.json",
+        "Win.json",
+        "GameOver.json"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
