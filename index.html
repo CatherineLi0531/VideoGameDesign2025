@@ -6,7 +6,41 @@
     <body >
         <script>
 
+            class Open extends Phaser.Scene{
+
+                constructor (key) {
+                    super({ key: 'Open' });
+                }
+
+                preload(){
+
+                    this.load.image('open', 'assets/open.png')
+
+                }
+
+                create(){
+
+                    this.add.image(240,160,'open');
+
+                    this.time.delayedCall(500, this.nextLevel, [], this);
+
+
+                }
+
+                update(){
+
+                }
+
+                nextLevel(){
+                    this.scene.stop('Open');
+                    this.scene.remove('Open');
+                    this.scene.start('Level1');
+                }
+
+            }
+
             let numOfPlayers = prompt("How Many Players? [2,3,4]", "2");
+
 
             class GameOver extends Phaser.Scene{
 
@@ -759,7 +793,7 @@
                 },
                 backgroundColor: '#000000',
                 parent: 'phaser-example',
-                scene: [Level1, Level2, Level3, GameOver, Win]
+                scene: [Open, Level1, Level2, Level3, GameOver, Win]
             };
 
 
